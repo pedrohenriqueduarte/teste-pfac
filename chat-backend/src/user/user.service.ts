@@ -7,10 +7,14 @@ import {
   UserExistsException,
 } from './user.exception';
 import * as bcrypt from 'bcrypt';
+import { UserValidator } from './user.validator';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly userValidator: UserValidator,
+  ) {}
 
   async create(data: UserType): Promise<User> {
     const userExists = await this.userRepository.findByEmail(data.email);
@@ -33,5 +37,13 @@ export class UserService {
     }
 
     return { ...user, password: undefined };
+  }
+
+  async findById(id: string) {
+    const user = await this.userRepository.findById(id);
+
+    this.userValidator.notFoundCheck(user);
+
+    return user;
   }
 }

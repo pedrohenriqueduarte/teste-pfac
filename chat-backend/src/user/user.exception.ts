@@ -1,4 +1,8 @@
-import { ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 
 export class UserExistsException extends ConflictException {
   constructor() {
@@ -9,5 +13,11 @@ export class UserExistsException extends ConflictException {
 export class LoginUnauthorizedException extends UnauthorizedException {
   constructor() {
     super('Senha ou Email incorretos');
+  }
+}
+
+export class UserNotFoundException extends NotFoundException {
+  constructor() {
+    super('User não encontrada');
   }
 }
