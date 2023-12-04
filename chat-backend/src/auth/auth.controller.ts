@@ -4,6 +4,7 @@ import { SignUpAuthDto } from './dto/sign-up.dto';
 import { SignInAuthDto } from './dto/sign-in.dto';
 import { Public } from 'src/common/public.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthToken } from './auth.interface';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -12,13 +13,13 @@ export class AuthController {
 
   @Public()
   @Post('sign-up')
-  signUp(@Body() signUpAuthDto: SignUpAuthDto) {
+  signUp(@Body() signUpAuthDto: SignUpAuthDto): Promise<AuthToken> {
     return this.authService.signUp(signUpAuthDto);
   }
 
   @Public()
   @Post('sign-in')
-  signIn(@Body() signInAuthDto: SignInAuthDto) {
+  signIn(@Body() signInAuthDto: SignInAuthDto): Promise<AuthToken> {
     return this.authService.signIn(signInAuthDto);
   }
 }

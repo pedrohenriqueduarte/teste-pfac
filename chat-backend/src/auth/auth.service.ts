@@ -14,7 +14,7 @@ export class AuthService {
     private readonly jwtHelper: AuthJwtHelper,
   ) {}
 
-  async signUp(signUpAuthDto: SignUpAuthDto) {
+  async signUp(signUpAuthDto: SignUpAuthDto): Promise<AuthToken> {
     try {
       const { email, name, password } = signUpAuthDto;
 
