@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { AuthToken } from './auth.interface';
 
 @Injectable()
 export class AuthJwtHelper {
@@ -12,7 +11,7 @@ export class AuthJwtHelper {
     private readonly configService: ConfigService,
   ) {}
 
-  async generateToken(userId: string, email: string): Promise<AuthToken> {
+  async generateToken(userId: string, email: string): Promise<string> {
     try {
       const accessToken = await this.jwtService.signAsync(
         {
@@ -25,7 +24,7 @@ export class AuthJwtHelper {
         },
       );
 
-      return { accessToken };
+      return accessToken;
     } catch (error) {
       this.logger.error('Generate Error', error);
       throw error;
