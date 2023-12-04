@@ -21,7 +21,7 @@ export class AuthJwtHelper {
         },
         {
           secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
-          expiresIn: '15d',
+          expiresIn: '1d',
         },
       );
 
