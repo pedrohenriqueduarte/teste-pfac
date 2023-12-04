@@ -24,7 +24,7 @@ export class AuthService {
         user.email,
       );
 
-      return { accessToken };
+      return { accessToken, user: { ...user, password: undefined } };
     } catch (error) {
       this.logger.error('SignUp Error', error);
       throw error;
