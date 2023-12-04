@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { User } from '@prisma/client';
 import { UserType } from './user.interface';
-import { UserExistsException } from './user.exception';
+import {
+  LoginUnauthorizedException,
+  UserExistsException,
+} from './user.exception';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -17,7 +20,18 @@ export class UserService {
     }
 
     const hash = await bcrypt.hash(data.password, 10);
-
     return await this.userRepository.create({ ...data, password: hash });
+  }
+
+  async findUserAndValidate(email: string, password: string): Promise<User> {
+    const user = await this.userRepository.findByEmail(email);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid || !user) {
+      throw new LoginUnauthorizedException();
+    }
+
+    return { ...user, password: undefined };
   }
 }
