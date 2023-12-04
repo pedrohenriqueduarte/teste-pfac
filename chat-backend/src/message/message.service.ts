@@ -3,6 +3,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UserPayload } from 'src/auth/auth.interface';
 import { UserService } from 'src/user/user.service';
 import { MessageRepository } from './message.repository';
+import { Message } from '@prisma/client';
 
 @Injectable()
 export class MessageService {
@@ -27,7 +28,7 @@ export class MessageService {
     }
   }
 
-  findAll() {
-    return `This action returns all message`;
+  async findAllChatMessages(): Promise<Message[]> {
+    return await this.messageRepository.findAllChatMessages();
   }
 }

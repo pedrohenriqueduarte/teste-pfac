@@ -13,4 +13,17 @@ export class MessageRepository {
     const prisma = transaction || this.prisma;
     return await prisma.message.create({ data });
   }
+
+  async findAllChatMessages(): Promise<Message[]> {
+    return await this.prisma.message.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
 }

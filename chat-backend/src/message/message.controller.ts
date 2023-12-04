@@ -20,6 +20,6 @@ export class MessageController {
 
   @Get()
   findAll() {
-    return this.messageService.findAll();
+    return this.messageService.findAllChatMessages();
   }
 }
