@@ -3,6 +3,7 @@ import { SignUpAuthDto } from './dto/sign-up.dto';
 import { UserService } from 'src/user/user.service';
 import { AuthJwtHelper } from './auth-jwt.helper';
 import { SignInAuthDto } from './dto/sign-in.dto';
+import { AuthToken } from './auth.interface';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +32,7 @@ export class AuthService {
     }
   }
 
-  async signIn(signInAuthDto: SignInAuthDto) {
+  async signIn(signInAuthDto: SignInAuthDto): Promise<AuthToken> {
     try {
       const { email, password } = signInAuthDto;
       const user = await this.userService.findUserAndValidate(email, password);
