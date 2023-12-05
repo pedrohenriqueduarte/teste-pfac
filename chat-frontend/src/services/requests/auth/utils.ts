@@ -31,8 +31,7 @@ export function setTokensLocalStorage(token: Token | null) {
 }
 
 export function clearTokensLocalStorage() {
-  const teste = localStorage.removeItem("@chat:t");
-  return teste;
+  return localStorage.removeItem("@chat:t");
 }
 
 export async function signInRequest({ email, password }: SignInCredentials) {

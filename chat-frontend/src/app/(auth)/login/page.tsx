@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useCallback } from "react";
 import { setTokensLocalStorage, signInRequest } from "@/services";
 import useAuthStore from "@/store/auth";
+import { useRouter } from "next/navigation";
 
 export type LoginFormData = {
   email: string;
@@ -19,6 +20,7 @@ export default function Login() {
   const setUserAuthenticated = useAuthStore(
     (state) => state.setUserAuthenticated
   );
+  const router = useRouter();
 
   async function handleLogin(formData: LoginFormData) {
     try {
@@ -32,6 +34,8 @@ export default function Login() {
 
       setTokensLocalStorage(accessToken);
       setUserAuthenticated(user, accessToken);
+
+      router.push("/chat");
     } catch (error) {
       toast.error("Erro ao realizar login");
     }

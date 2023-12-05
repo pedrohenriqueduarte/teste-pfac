@@ -11,11 +11,23 @@ import {
   getMessages,
   sendMessage,
 } from "@/services/requests/messages";
+import { clearTokensLocalStorage } from "@/services";
+import { useRouter } from "next/navigation";
 
 export default function Chat() {
   const user = useAuthStore((state) => state.user);
+  const setSignOut = useAuthStore((state) => state.signOut);
+  const router = useRouter();
+
   const [message, setMessage] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const [messagesList, setMessagesList] = useState<Message[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user.name);
+    }
+  }, [user]);
 
   const handleMessageToSend = useCallback(async () => {
     try {
@@ -42,6 +54,19 @@ export default function Chat() {
     }
   }
 
+  function logout() {
+    try {
+      console.log("a");
+      setSignOut();
+      clearTokensLocalStorage();
+
+      router.push("/login");
+      toast.success("Usuário deslogado!");
+    } catch (error) {
+      toast.error("Erro no Logout");
+    }
+  }
+
   useEffect(() => {
     getMessageRequest();
   }, []);
@@ -51,7 +76,7 @@ export default function Chat() {
       <header className="bg-red-900 flex justify-between items-center border-cyan-400 w-full h-20 p-5">
         <div>
           <p className="text-white text-center font-Roboto text-base font-normal leading-42 tracking-0.25">
-            {user?.name}
+            {userName}
           </p>
         </div>
 
@@ -62,9 +87,12 @@ export default function Chat() {
         </div>
 
         <div>
-          <p className="text-white text-center font-Roboto text-base font-normal leading-42 tracking-0.25">
+          <button
+            onClick={logout}
+            className="text-white text-center font-Roboto text-base font-normal leading-42 tracking-0.25"
+          >
             Logout
-          </p>
+          </button>
         </div>
       </header>
 
