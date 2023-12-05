@@ -12,7 +12,9 @@ const CardMessage = ({ name, email, text, date }: CardMessageProps) => {
   return (
     <div className="w-fullbg-[#f0f2f5] p-3 border rounded border-black flex flex-col gap-4">
       <div className="w-full flex justify-start font-bold">
-        <p>{name}</p>
+        <p>
+          {name} - {email}
+        </p>
       </div>
 
       <div className="w-full flex text-justify">

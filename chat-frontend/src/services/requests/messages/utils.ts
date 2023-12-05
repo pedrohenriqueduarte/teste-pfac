@@ -1,11 +1,9 @@
 import api from "@/services/api";
-import { MessagePostDTO } from ".";
+import { Message } from ".";
 import { toast } from "react-toastify";
 
-export async function sendMessage(data: MessagePostDTO) {
+export async function sendMessage(data: Partial<Message>) {
   try {
-    console.log("env", process.env.BACKEND_API_URL);
-
     const response = await api().post("/message", data);
 
     console.log({ response });

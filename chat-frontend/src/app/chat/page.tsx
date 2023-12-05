@@ -1,7 +1,7 @@
 "use client";
 
 import useAuthStore from "@/store/auth";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import send from "@/assets/SendRounded.svg";
 import Image from "next/image";
 import CardMessage from "@/components/MessageCard";
@@ -13,15 +13,26 @@ import {
 } from "@/services/requests/messages";
 import { clearTokensLocalStorage } from "@/services";
 import { useRouter } from "next/navigation";
+import { useEventsSocket } from "@/contexts/SocketProvider";
 
 export default function Chat() {
   const user = useAuthStore((state) => state.user);
   const setSignOut = useAuthStore((state) => state.signOut);
   const router = useRouter();
+  const socket = useEventsSocket();
 
   const [message, setMessage] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [messagesList, setMessagesList] = useState<Message[]>([]);
+
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messagesList]);
 
   useEffect(() => {
     if (user) {
@@ -46,7 +57,7 @@ export default function Chat() {
     try {
       const response = await getMessages();
 
-      console.log(response);
+      const mappedMessages = console.log(response);
 
       setMessagesList(response);
     } catch (error: any) {
@@ -70,6 +81,19 @@ export default function Chat() {
   useEffect(() => {
     getMessageRequest();
   }, []);
+
+  const handleChatBySocket = useCallback((message: any) => {
+    setMessagesList((prevState) => [...prevState, message]);
+  }, []);
+
+  useEffect(() => {
+    socket.on("message", handleChatBySocket);
+
+    return () => {
+      socket.off("message", handleChatBySocket);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
 
   return (
     <div className="w-screen h-screen flex flex-col bg-slate-400">
@@ -98,16 +122,19 @@ export default function Chat() {
 
       <div className="w-full h-full bg-orange-600 flex justify-center items-center">
         <div className="bg-white h-full w-3/6 flex flex-col">
-          <div className="bg-white w-full flex flex-1-0-0 flex-col gap-6 p-10 overflow-y-auto">
+          <div
+            className="bg-white w-full flex flex-1-0-0 flex-col gap-6 p-10 overflow-y-auto"
+            ref={chatContainerRef}
+          >
             {messagesList &&
               messagesList.map((msg) => {
                 return (
                   <CardMessage
-                    key={msg.id}
-                    email={msg.user.email}
-                    name={msg.user.name}
-                    text={msg.text}
-                    date={msg.created_at}
+                    key={msg?.id}
+                    email={msg?.user?.email as string}
+                    name={msg?.user?.name as string}
+                    text={msg?.text}
+                    date={msg?.created_at}
                   />
                 );
               })}
