@@ -1,3 +1,5 @@
+"use client";
+
 import Input from "@/components/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -5,12 +7,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
-import {
-  Token,
-  getTokensLocalStorage,
-  setTokensLocalStorage,
-  signInRequest,
-} from "@/services";
+import { setTokensLocalStorage, signInRequest } from "@/services";
 import useAuthStore from "@/store/auth";
 
 export type LoginFormData = {
@@ -80,7 +77,6 @@ export default function Login() {
             label="E-mail"
             name="email"
             control={control}
-            required
           ></Input>
 
           <Input
@@ -89,7 +85,6 @@ export default function Login() {
             name="password"
             control={control}
             type="password"
-            required
           ></Input>
 
           <button

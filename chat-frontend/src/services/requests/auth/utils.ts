@@ -1,4 +1,4 @@
-import { SignInCredentials, Token } from ".";
+import { SignInCredentials, SignUpCredentials, Token } from ".";
 import { toast } from "react-toastify";
 import api from "@/services/api";
 
@@ -42,6 +42,25 @@ export async function signInRequest({ email, password }: SignInCredentials) {
     const response = await api().post("/auth/sign-in", {
       email,
       password,
+    });
+
+    console.log({ response });
+
+    return response.data;
+  } catch (error: any) {
+    if (error.response.status === 500) {
+      toast.error("Erro desconhecido, contate o suporte");
+    } else {
+      toast.error(error.response.data.message);
+    }
+    return null;
+  }
+}
+
+export async function signUpRequest(data: SignUpCredentials) {
+  try {
+    const response = await api().post("/auth/sign-up", {
+      data,
     });
 
     console.log({ response });

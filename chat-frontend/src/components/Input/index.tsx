@@ -4,7 +4,7 @@ export interface InputControlledProps extends FieldValues {
   style: string;
   label: string;
   name: string;
-  control: Control;
+  control: Control<any>;
   defaultValue?: any;
 }
 
@@ -26,15 +26,21 @@ const Input = ({
           field: { onChange, value, onBlur, ref },
           fieldState: { error },
         }) => (
-          <input
-            placeholder={label}
-            className={style}
-            value={value}
-            onBlur={onBlur}
-            onChange={onChange}
-            ref={ref}
-            {...rest}
-          />
+          <>
+            <input
+              name={name}
+              placeholder={label}
+              className={style}
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              ref={ref}
+              {...rest}
+            />
+            {!!error ? (
+              <p className="text-red-600 text-xs mt-2">{error?.message}</p>
+            ) : null}
+          </>
         )}
       />
     </div>
