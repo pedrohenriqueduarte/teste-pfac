@@ -1,14 +1,50 @@
 "use client";
 
 import useAuthStore from "@/store/auth";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import send from "@/assets/SendRounded.svg";
 import Image from "next/image";
 import CardMessage from "@/components/MessageCard";
+import { toast } from "react-toastify";
+import {
+  Message,
+  getMessages,
+  sendMessage,
+} from "@/services/requests/messages";
 
 export default function Chat() {
   const user = useAuthStore((state) => state.user);
   const [message, setMessage] = useState<string>("");
+  const [messagesList, setMessagesList] = useState<Message[]>([]);
+
+  const handleMessageToSend = useCallback(async () => {
+    try {
+      await sendMessage({
+        text: message,
+      });
+
+      setMessage("");
+      toast.success("Mensagem enviada com sucesso!");
+    } catch (error: any) {
+      console.log(error.response.data.message);
+    }
+  }, [message]);
+
+  async function getMessageRequest() {
+    try {
+      const response = await getMessages();
+
+      console.log(response);
+
+      setMessagesList(response);
+    } catch (error: any) {
+      console.log(error.response.data.message);
+    }
+  }
+
+  useEffect(() => {
+    getMessageRequest();
+  }, []);
 
   return (
     <div className="w-screen h-screen flex flex-col bg-slate-400">
@@ -35,13 +71,18 @@ export default function Chat() {
       <div className="w-full h-full bg-orange-600 flex justify-center items-center">
         <div className="bg-white h-full w-3/6 flex flex-col">
           <div className="bg-white w-full flex flex-1-0-0 flex-col gap-6 p-10 overflow-y-auto">
-            <CardMessage />
-
-            <CardMessage />
-
-            <CardMessage />
-
-            <CardMessage />
+            {messagesList &&
+              messagesList.map((msg) => {
+                return (
+                  <CardMessage
+                    key={msg.id}
+                    email={msg.user.email}
+                    name={msg.user.name}
+                    text={msg.text}
+                    date={msg.created_at}
+                  />
+                );
+              })}
           </div>
           <div className="bg-[#f0f2f5] h-20 w-full p-3 flex gap-3">
             <input
@@ -56,6 +97,7 @@ export default function Chat() {
                 !message ? "bg-gray-400 cursor-not-allowed" : "bg-[#298FCF]"
               }`}
               disabled={!message}
+              onClick={handleMessageToSend}
             >
               <Image src={send} alt="enviar"></Image>
             </button>

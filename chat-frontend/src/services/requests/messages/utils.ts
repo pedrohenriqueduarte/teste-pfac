@@ -1,8 +1,8 @@
 import api from "@/services/api";
-import { Message } from ".";
+import { MessagePostDTO } from ".";
 import { toast } from "react-toastify";
 
-export async function sendMessage(data: Message) {
+export async function sendMessage(data: MessagePostDTO) {
   try {
     console.log("env", process.env.BACKEND_API_URL);
 
