@@ -1,5 +1,7 @@
 "use client";
 
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import Input from "@/components/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -51,13 +53,14 @@ export default function SignUp() {
 
       setTokensLocalStorage(accessToken);
       setUserAuthenticated(user, accessToken);
-    } catch (error) {
-      toast.error("Erro ao se cadastrar");
+    } catch (error: any) {
+      console.log(error.response.data.message);
     }
   }
 
   return (
     <div className="flex flex-col w-screen h-screen justify-center items-center bg-slate-400">
+      <ToastContainer />
       <div
         className="flex flex-col items-center justify-center w-[25vw] min-w-[400px] gap-3
         rounded-10 bg-white p-12 rounded-xl"
