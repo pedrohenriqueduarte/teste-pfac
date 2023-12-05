@@ -4,6 +4,7 @@ import { UserPayload } from 'src/auth/auth.interface';
 import { UserService } from 'src/user/user.service';
 import { MessageRepository } from './message.repository';
 import { Message } from '@prisma/client';
+import { MessageGateway } from './message.gateway';
 
 @Injectable()
 export class MessageService {
@@ -12,6 +13,7 @@ export class MessageService {
   constructor(
     private readonly userService: UserService,
     private readonly messageRepository: MessageRepository,
+    private readonly messageGateway: MessageGateway,
   ) {}
 
   async create(createMessageDto: CreateMessageDto, userPayload: UserPayload) {
@@ -20,6 +22,8 @@ export class MessageService {
 
       const data = { text: createMessageDto.text, userId: user.id };
       const message = await this.messageRepository.create(data);
+
+      this.messageGateway.emitMessageChat(message);
 
       return { message, name: user.name };
     } catch (error) {
