@@ -4,7 +4,7 @@ export interface InputControlledProps extends FieldValues {
   style: string;
   label: string;
   name: string;
-  control: Control<any>;
+  control?: Control<any>;
   defaultValue?: any;
 }
 
@@ -17,7 +17,7 @@ const Input = ({
   ...rest
 }: InputControlledProps) => {
   return (
-    <div className="mb-4">
+    <div className="mb-4 w-full">
       <Controller
         name={name}
         control={control}
