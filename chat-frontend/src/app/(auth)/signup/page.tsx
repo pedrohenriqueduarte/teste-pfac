@@ -103,6 +103,12 @@ export default function SignUp() {
           >
             Enviar
           </button>
+
+          <Link href="/login">
+            <button className="h-14 w-full bg-red-700 rounded-md text-white">
+              Voltar
+            </button>
+          </Link>
         </form>
       </div>
     </div>
