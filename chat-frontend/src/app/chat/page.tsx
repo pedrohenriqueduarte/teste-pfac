@@ -1,11 +1,7 @@
 "use client";
 
-import Input from "@/components/Input";
 import useAuthStore from "@/store/auth";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import * as Yup from "yup";
+import { useState } from "react";
 import send from "@/assets/SendRounded.svg";
 import Image from "next/image";
 import CardMessage from "@/components/MessageCard";
