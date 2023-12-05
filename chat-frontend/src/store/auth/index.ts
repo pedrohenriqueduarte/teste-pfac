@@ -7,7 +7,6 @@ export type AuthState = {
   accessToken: Token | null;
   signed: boolean;
   user: User | null;
-  menuSelected: "account" | "portal" | "logs" | "profile";
   setUserAuthenticated: (user: User, accessToken: Token) => void;
   signOut: () => void;
 };
@@ -18,7 +17,6 @@ const useAuthStore = create(
       ({
         accessToken: null,
         signed: false,
-        menuSelected: "portal",
         setUserAuthenticated: (user: User, accessToken: Token) =>
           set({
             signed: true,

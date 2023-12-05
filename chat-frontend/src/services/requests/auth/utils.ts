@@ -1,4 +1,6 @@
-import { Token } from ".";
+import { SignInCredentials, Token } from ".";
+import { toast } from "react-toastify";
+import api from "@/services/api";
 
 export function getDataInLocalStorage(key: string) {
   const dataString = localStorage.getItem(key!);
@@ -31,4 +33,26 @@ export function setTokensLocalStorage(token: Token | null) {
 export function clearTokensLocalStorage() {
   const teste = localStorage.removeItem("@chat:t");
   return teste;
+}
+
+export async function signInRequest({ email, password }: SignInCredentials) {
+  try {
+    console.log("env", process.env.BACKEND_API_URL);
+
+    const response = await api().post("/auth/sign-in", {
+      email,
+      password,
+    });
+
+    console.log({ response });
+
+    return response.data;
+  } catch (error: any) {
+    if (error.response.status === 500) {
+      toast.error("Erro desconhecido, contate o suporte");
+    } else {
+      toast.error(error.response.data.message);
+    }
+    return null;
+  }
 }
