@@ -26,4 +26,18 @@ export class MessageRepository {
       },
     });
   }
+
+  async findById(id: string): Promise<Message> {
+    return await this.prisma.message.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
 }

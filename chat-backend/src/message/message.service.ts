@@ -23,9 +23,11 @@ export class MessageService {
       const data = { text: createMessageDto.text, userId: user.id };
       const message = await this.messageRepository.create(data);
 
-      this.messageGateway.emitMessageChat(message);
+      const newMessage = await this.messageRepository.findById(message.id);
 
-      return { message, name: user.name };
+      this.messageGateway.emitMessageChat(newMessage);
+
+      return { message };
     } catch (error) {
       this.logger.error('Create Message Error', error);
       throw error;
