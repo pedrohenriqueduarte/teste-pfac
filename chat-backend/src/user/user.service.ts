@@ -30,6 +30,10 @@ export class UserService {
   async findUserAndValidate(email: string, password: string): Promise<User> {
     const user = await this.userRepository.findByEmail(email);
 
+    if (!user) {
+      throw new LoginUnauthorizedException();
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid || !user) {
