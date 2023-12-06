@@ -4,7 +4,7 @@ import useAuthStore from "@/store/auth";
 import { useCallback, useEffect, useRef, useState } from "react";
 import send from "@/assets/SendRounded.svg";
 import Image from "next/image";
-import CardMessage from "@/components/MessageCard";
+import CardMessage from "@/app/components/MessageCard/";
 import { toast } from "react-toastify";
 import {
   Message,

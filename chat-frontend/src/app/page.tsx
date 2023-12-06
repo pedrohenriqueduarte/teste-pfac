@@ -2,6 +2,8 @@
 
 import useAuthStore from "@/store/auth";
 import { useRouter } from "next/navigation";
+import Chat from "./chat/page";
+import Login from "./login/page";
 
 export default function Home() {
   const signed = useAuthStore((state) => state.signed);
@@ -10,11 +12,11 @@ export default function Home() {
   function renderPage() {
     switch (signed) {
       case true:
-        return router.push("/chat");
+        return <Chat />;
       case false:
-        return router.push("/login");
+        return <Login />;
       default:
-        return router.push("/login");
+        return <Login />;
     }
   }
   return <>{renderPage()}</>;
