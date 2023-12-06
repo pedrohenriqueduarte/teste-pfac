@@ -3,14 +3,13 @@ import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { SocketIoConfigAdapter } from './common/adapters/socket-io-config.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('port');
-  const corsLocal = configService.get<string>('CORS_LOCAL');
-  const corsDeploy = configService.get<string>('CORS_DEPLOY');
 
   app.use(helmet());
 
@@ -22,6 +21,9 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  const socketIoConfigAdapter = new SocketIoConfigAdapter(app);
+  app.useWebSocketAdapter(socketIoConfigAdapter);
 
   app.enableCors({
     origin: [

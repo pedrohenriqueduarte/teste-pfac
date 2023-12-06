@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpAuthDto } from './dto/sign-up.dto';
 import { SignInAuthDto } from './dto/sign-in.dto';
-import { Public } from 'src/common/public.decorator';
+import { Public } from 'src/common/decorators/public.decorator';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthToken } from './auth.interface';
 
