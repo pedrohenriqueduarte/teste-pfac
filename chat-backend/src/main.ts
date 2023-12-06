@@ -9,6 +9,8 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('port');
+  const corsLocal = configService.get<string>('CORS_LOCAL');
+  const corsDeploy = configService.get<string>('CORS_DEPLOY');
 
   app.use(helmet());
 
@@ -21,8 +23,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  console.log(corsLocal, corsDeploy);
+
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: [corsLocal, corsDeploy],
   });
 
   app.enableShutdownHooks();
