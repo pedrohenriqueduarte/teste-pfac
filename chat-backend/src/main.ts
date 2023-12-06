@@ -23,8 +23,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  console.log(corsLocal, corsDeploy);
-
   app.enableCors({
     origin: [corsLocal, corsDeploy],
   });
