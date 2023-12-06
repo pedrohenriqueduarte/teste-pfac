@@ -24,7 +24,10 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: [corsLocal, corsDeploy],
+    origin: [
+      'http://localhost:3000',
+      'https://chat-backend-dxq6akdzl-pedro-henrique-s-projects.vercel.app',
+    ],
   });
 
   app.enableShutdownHooks();
