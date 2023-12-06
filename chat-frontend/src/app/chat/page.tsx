@@ -68,7 +68,6 @@ export default function Chat() {
 
   function logout() {
     try {
-      console.log("a");
       setSignOut();
       clearTokensLocalStorage();
 

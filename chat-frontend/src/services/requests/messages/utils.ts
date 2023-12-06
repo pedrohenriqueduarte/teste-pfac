@@ -6,8 +6,6 @@ export async function sendMessage(data: Partial<Message>) {
   try {
     const response = await api().post("/message", data);
 
-    console.log({ response });
-
     return response.data;
   } catch (error: any) {
     if (error.response.status === 500) {
@@ -22,8 +20,6 @@ export async function sendMessage(data: Partial<Message>) {
 export async function getMessages() {
   try {
     const response = await api().get("/message");
-
-    console.log({ response });
 
     return response.data;
   } catch (error: any) {

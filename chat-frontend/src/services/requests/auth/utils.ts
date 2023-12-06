@@ -41,8 +41,6 @@ export async function signInRequest({ email, password }: SignInCredentials) {
       password,
     });
 
-    console.log({ response });
-
     return response.data;
   } catch (error: any) {
     if (error.response.status === 500) {
@@ -56,14 +54,10 @@ export async function signInRequest({ email, password }: SignInCredentials) {
 
 export async function signUpRequest(data: SignUpCredentials) {
   try {
-    console.log("data front", data);
     const response = await api().post("/auth/sign-up", data);
-
-    console.log({ response });
 
     return response.data;
   } catch (error: any) {
-    console.log("error", error);
     if (error.response.status === 500) {
       toast.error("Erro desconhecido, contate o suporte");
     } else {

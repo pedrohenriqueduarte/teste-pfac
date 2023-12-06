@@ -31,7 +31,6 @@ export default function Login() {
         password: formData?.password,
       });
 
-      console.log("handleLoginRes =>", response);
       const { accessToken, user } = response;
 
       setTokensLocalStorage(accessToken);

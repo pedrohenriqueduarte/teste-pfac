@@ -42,14 +42,12 @@ export default function SignUp() {
 
   async function handleSignUp(formData: SignUpFormData) {
     try {
-      console.log("formdata", formData);
       const response = await signUpRequest({
         name: formData?.userName,
         email: formData?.email,
         password: formData?.password,
       });
 
-      console.log("handlesignUpRes =>", response);
       const { accessToken, user } = response;
 
       setTokensLocalStorage(accessToken);
