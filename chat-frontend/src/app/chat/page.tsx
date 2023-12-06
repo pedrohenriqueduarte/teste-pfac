@@ -37,6 +37,8 @@ export default function Chat() {
   useEffect(() => {
     if (user) {
       setUserName(user.name);
+    } else {
+      router.push("/login");
     }
   }, [user]);
 

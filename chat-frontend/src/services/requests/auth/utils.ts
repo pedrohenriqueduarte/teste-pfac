@@ -1,6 +1,6 @@
 import { SignInCredentials, SignUpCredentials, Token } from ".";
-import { toast } from "react-toastify";
 import api from "@/services/api";
+import { toast } from "react-toastify";
 
 export function getDataInLocalStorage(key: string) {
   const dataString = localStorage.getItem(key!);

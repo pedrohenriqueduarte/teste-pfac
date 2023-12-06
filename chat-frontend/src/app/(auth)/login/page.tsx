@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+
 import { useCallback } from "react";
 import { setTokensLocalStorage, signInRequest } from "@/services";
 import useAuthStore from "@/store/auth";
@@ -36,8 +36,8 @@ export default function Login() {
       setUserAuthenticated(user, accessToken);
 
       router.push("/chat");
-    } catch (error) {
-      toast.error("Erro ao realizar login");
+    } catch (error: any) {
+      console.log(error.response?.data?.message);
     }
   }
 
