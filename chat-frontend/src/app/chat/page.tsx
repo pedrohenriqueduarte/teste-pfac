@@ -14,6 +14,7 @@ import {
 import { clearTokensLocalStorage } from "@/services";
 import { useRouter } from "next/navigation";
 import { useEventsSocket } from "@/contexts/SocketProvider";
+import backImg from "@/assets/backimg.jpg";
 
 export default function Chat() {
   const user = useAuthStore((state) => state.user);
@@ -59,11 +60,9 @@ export default function Chat() {
     try {
       const response = await getMessages();
 
-      const mappedMessages = console.log(response);
-
       setMessagesList(response);
     } catch (error: any) {
-      console.log(error.response.data.message);
+      console.log(error.response?.data?.message);
     }
   }
 
@@ -98,8 +97,14 @@ export default function Chat() {
   }, [socket]);
 
   return (
-    <div className="w-screen h-screen flex flex-col bg-slate-400">
-      <header className="bg-red-900 flex justify-between items-center border-cyan-400 w-full h-20 p-5">
+    <div className="w-screen h-screen flex flex-col relative">
+      <Image
+        src={backImg}
+        alt="imagem de fundo"
+        className="w-full h-full object-cover absolute inset-0 z-10"
+      />
+
+      <header className="z-20 absolute inset-0 bg-black flex justify-between items-center border-cyan-400 w-full h-20 p-5">
         <div>
           <p className="text-white text-center font-Roboto text-base font-normal leading-42 tracking-0.25">
             {userName}
@@ -122,22 +127,30 @@ export default function Chat() {
         </div>
       </header>
 
-      <div className="w-full h-full bg-orange-600 flex justify-center items-center">
-        <div className="bg-white h-full w-3/6 flex flex-col">
+      <div className="z-20 w-full h-full flex justify-center items-center mt-20">
+        <div className="bg-white min-w-[375px] h-full w-3/6 flex flex-col">
           <div
             className="bg-white w-full flex flex-1-0-0 flex-col gap-6 p-10 overflow-y-auto"
             ref={chatContainerRef}
           >
             {messagesList &&
-              messagesList.map((msg) => {
+              messagesList.map((msg, i) => {
+                const isUserMsg = msg.user.email === user?.email;
                 return (
-                  <CardMessage
+                  <div
                     key={msg?.id}
-                    email={msg?.user?.email as string}
-                    name={msg?.user?.name as string}
-                    text={msg?.text}
-                    date={msg?.created_at}
-                  />
+                    className={`flex ${
+                      isUserMsg ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    <CardMessage
+                      email={msg?.user?.email as string}
+                      name={msg?.user?.name as string}
+                      text={msg?.text}
+                      date={msg?.created_at}
+                      isUserMsg={isUserMsg}
+                    />
+                  </div>
                 );
               })}
           </div>

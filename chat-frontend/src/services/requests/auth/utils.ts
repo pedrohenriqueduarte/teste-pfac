@@ -36,8 +36,6 @@ export function clearTokensLocalStorage() {
 
 export async function signInRequest({ email, password }: SignInCredentials) {
   try {
-    console.log("env", process.env.BACKEND_API_URL);
-
     const response = await api().post("/auth/sign-in", {
       email,
       password,
