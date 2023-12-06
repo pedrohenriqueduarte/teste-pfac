@@ -46,6 +46,11 @@ JWT_ACCESS_TOKEN_SECRET=seuToken
 
 yarn
 
-yarn build
+yarn prisma:dev
 
 yarn start:dev
+
+## Deploys
+
+Back-end: https://chat-backend-pedro-henrique-s-projects.vercel.app
+Front-end: https://teste-pfac-pedro-henrique-s-projects.vercel.app
